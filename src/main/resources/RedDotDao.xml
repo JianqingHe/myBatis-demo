@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.RedDotDao">
+
+    <!--通过id查询信息-->
+    <select id="findById" resultType="redDot" parameterType="Long">
+        select rt_id id, rt_table tablename, rt_status status from reddot_template where rt_id = #{id};
+    </select>
+
+    <!--通过idList查询信息-->
+    <select id="findAll" resultType="redDot" parameterType="collection">
+        select rt_id id, rt_table tablename, rt_status status from reddot_template
+        <if test="collection != null">
+            where rt_id in
+            <foreach collection="collection" item="idSet" index="index" open="(" close=")" separator=",">
+               #{idSet}
+            </foreach>
+        </if>
+        limit 100;
+    </select>
+
+</mapper>
